@@ -1,5 +1,6 @@
 package clazz;
 
+import clazz.constant.Cp_info;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ public class ClassFile {
 
     private int constantPoolCount;
 
-    private Object[] constantPool;
+    private Cp_info[] constantPool;
 
     private int accessFlags;
 
