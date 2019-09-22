@@ -1,9 +1,12 @@
 package clazz.constant;
 
-import lombok.Data;
+import clazz.ClassReader;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class CONSTANT_Long_info extends Cp_info {
+@Getter
+@Setter
+public class CONSTANT_Long_info extends CONSTANT {
 
     private int high_bytes;
 
@@ -12,6 +15,15 @@ public class CONSTANT_Long_info extends Cp_info {
     @Override
     public int getTag() {
         return 5;
+    }
+
+    @Override
+    public CONSTANT parse(ClassReader classReader) {
+        CONSTANT_Long_info constant = new CONSTANT_Long_info();
+        constant.setTag(getTag());
+        constant.setHigh_bytes(classReader.readU4Int());
+        constant.setLow_bytes(classReader.readU4Int());
+        return constant;
     }
 
     public long toLong() {

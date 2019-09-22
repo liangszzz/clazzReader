@@ -1,9 +1,12 @@
 package clazz.constant;
 
-import lombok.Data;
+import clazz.ClassReader;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class CONSTANT_Float_info extends Cp_info {
+@Getter
+@Setter
+public class CONSTANT_Float_info extends CONSTANT {
 
 
     private int value;
@@ -11,5 +14,13 @@ public class CONSTANT_Float_info extends Cp_info {
     @Override
     public int getTag() {
         return 4;
+    }
+
+    @Override
+    public CONSTANT parse(ClassReader classReader) {
+        CONSTANT_Float_info constant = new CONSTANT_Float_info();
+        constant.setTag(getTag());
+        constant.setValue(classReader.readU4Int());
+        return constant;
     }
 }

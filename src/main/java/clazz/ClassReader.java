@@ -1,5 +1,7 @@
 package clazz;
 
+import clazz.constant.CONSTANT;
+
 import java.util.Arrays;
 
 public class ClassReader {
@@ -75,7 +77,14 @@ public class ClassReader {
     }
 
     private void parseConstantPool(ClassFile classFile) {
-
+        int count = classFile.getConstantPoolCount();
+        CONSTANT[] cpInfos = new CONSTANT[count];
+        cpInfos[0] = null;
+        for (int i = 1; i < count; i++) {
+            int tag = readU1();
+            cpInfos[i] = null;
+        }
+        classFile.setConstantPool(cpInfos);
     }
 
     private void parseConstantPoolCount(ClassFile classFile) {
@@ -112,6 +121,12 @@ public class ClassReader {
         byte[] bytes = Arrays.copyOfRange(this.bytes, pos, pos + 4);
         pos += 4;
         return bytesToString(bytes);
+    }
+
+    public int readU4Int() {
+        byte[] bytes = Arrays.copyOfRange(this.bytes, pos, pos + 4);
+        pos += 4;
+        return bytesToInt(bytes);
     }
 
     public String bytesToString(byte[] bytes) {
