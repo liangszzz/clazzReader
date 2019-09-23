@@ -82,7 +82,7 @@ public class ClassReader {
         cpInfos[0] = null;
         for (int i = 1; i < count; i++) {
             int tag = readU1();
-            cpInfos[i] = null;
+            cpInfos[i] = CONSTANT.parseConstant(tag, this);
         }
         classFile.setConstantPool(cpInfos);
     }
@@ -107,7 +107,7 @@ public class ClassReader {
 
     public int readU1() {
         byte[] bytes = Arrays.copyOfRange(this.bytes, pos, pos + 1);
-        pos += 2;
+        pos += 1;
         return bytesToInt(bytes);
     }
 

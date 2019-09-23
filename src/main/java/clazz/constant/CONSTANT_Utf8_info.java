@@ -31,6 +31,6 @@ public class CONSTANT_Utf8_info extends CONSTANT {
     }
 
     public String parseString() {
-        return "";
+        return "aaa";
     }
 }
