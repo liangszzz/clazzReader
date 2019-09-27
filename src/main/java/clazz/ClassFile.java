@@ -18,7 +18,7 @@ public class ClassFile {
 
     private CONSTANT[] constantPool;
 
-    private int accessFlags;
+    private String accessFlags;
 
     private int thisClass;
 

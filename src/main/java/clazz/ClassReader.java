@@ -64,7 +64,9 @@ public class ClassReader {
   }
 
   private void parseAccessFlags(ClassFile classFile) {
-    classFile.setAccessFlags(readU2());
+    int i = readU2();
+
+    classFile.setAccessFlags("");
   }
 
   private void parseConstantPool(ClassFile classFile) {
