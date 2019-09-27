@@ -20,9 +20,9 @@ public class ClassFile {
 
     private String accessFlags;
 
-    private int thisClass;
+    private String thisClass;
 
-    private int superClass;
+    private String superClass;
 
     private int interfacesCount;
 
