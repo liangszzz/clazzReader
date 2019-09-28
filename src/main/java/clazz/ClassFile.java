@@ -1,6 +1,9 @@
 package clazz;
 
 import clazz.constant.CONSTANT;
+import clazz.constant.CONSTANT_Utf8_info;
+import clazz.field.Field_info;
+import clazz.method.Method_info;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,15 +29,15 @@ public class ClassFile {
 
     private int interfacesCount;
 
-    private Object[] interfaces;
+    private CONSTANT_Utf8_info[] interfaces;
 
     private int fieldsCount;
 
-    private Object[] fields;
+    private Field_info[] fields;
 
     private int methodsCount;
 
-    private Object[] methods;
+    private Method_info[] methods;
 
     private int attributesCount;
 

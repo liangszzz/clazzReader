@@ -12,5 +12,6 @@ public class Application {
         ClassReader classReader = new ClassReader(bytes);
         ClassFile classFile = classReader.parseClassFile();
         System.out.println(classFile.getMagic());
+        System.out.println(classFile.getInterfaces()[0].parseString());
     }
 }
