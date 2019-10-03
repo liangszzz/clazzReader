@@ -45,6 +45,17 @@ public class ClassReader {
     }
 
     private void parseAttributes(ClassFile classFile) {
+        Attribute_info[] attribute_infos = new Attribute_info[classFile.getAttributesCount()];
+        for (int i = 0; i < attribute_infos.length; i++) {
+            CONSTANT_Utf8_info attributeName = (CONSTANT_Utf8_info) classFile.getConstantPool()[readU2()];
+            Attribute_info attribute_info = Attribute_info.getInstance(attributeName.parseString());
+            attribute_info.setAttribute_name(attributeName.parseString());
+            int u4 = readU4Int();
+            attribute_info.setAttribute_length(u4);
+            attribute_info.setInfo(readBytes(u4));
+            attribute_infos[i] = attribute_info.parseAttribute(classFile);
+        }
+        classFile.setAttributes(attribute_infos);
     }
 
     private void parseAttributesCount(ClassFile classFile) {
@@ -52,7 +63,7 @@ public class ClassReader {
     }
 
     private void parseMethods(ClassFile classFile) {
-        Method_info[] method_infos = new Method_info[classFile.getFieldsCount()];
+        Method_info[] method_infos = new Method_info[classFile.getMethodsCount()];
         for (int i = 0; i < method_infos.length; i++) {
             Method_info method_info = new Method_info();
             String s = toHexString(readU2Byte());
@@ -62,22 +73,24 @@ public class ClassReader {
                 }
             }
             method_info.setAccess_flag(method_info.accessFlagsToString(s));
-            CONSTANT_Utf8_info constant_utf8_info = (CONSTANT_Utf8_info) classFile.getConstantPool()[readU2()];
+            CONSTANT_Utf8_info constant_utf8_info =
+                    (CONSTANT_Utf8_info) classFile.getConstantPool()[readU2()];
             method_info.setName(constant_utf8_info.parseString());
-            CONSTANT_Utf8_info constant_utf8_info2 = (CONSTANT_Utf8_info) classFile.getConstantPool()[readU2()];
+            CONSTANT_Utf8_info constant_utf8_info2 =
+                    (CONSTANT_Utf8_info) classFile.getConstantPool()[readU2()];
             method_info.setDescriptor(constant_utf8_info2.parseString());
             int attribute_count = readU2();
             method_info.setAttributes_count(attribute_count);
 
             Attribute_info[] attribute_infos = new Attribute_info[attribute_count];
             for (int j = 0; j < attribute_count; j++) {
-                Attribute_info attribute_info = new Attribute_info();
                 CONSTANT_Utf8_info attributeName = (CONSTANT_Utf8_info) classFile.getConstantPool()[readU2()];
+                Attribute_info attribute_info = Attribute_info.getInstance(attributeName.parseString());
                 attribute_info.setAttribute_name(attributeName.parseString());
                 int u4 = readU4Int();
                 attribute_info.setAttribute_length(u4);
                 attribute_info.setInfo(readBytes(u4));
-                attribute_infos[j] = attribute_info;
+                attribute_infos[j] = attribute_info.parseAttribute(classFile);
             }
             method_info.setAttributes(attribute_infos);
             method_infos[i] = method_info;
@@ -100,22 +113,24 @@ public class ClassReader {
                 }
             }
             field_info.setAccess_flag(field_info.accessFlagsToString(s));
-            CONSTANT_Utf8_info constant_utf8_info = (CONSTANT_Utf8_info) classFile.getConstantPool()[readU2()];
+            CONSTANT_Utf8_info constant_utf8_info =
+                    (CONSTANT_Utf8_info) classFile.getConstantPool()[readU2()];
             field_info.setName(constant_utf8_info.parseString());
-            CONSTANT_Utf8_info constant_utf8_info2 = (CONSTANT_Utf8_info) classFile.getConstantPool()[readU2()];
+            CONSTANT_Utf8_info constant_utf8_info2 =
+                    (CONSTANT_Utf8_info) classFile.getConstantPool()[readU2()];
             field_info.setDescriptor(constant_utf8_info2.parseString());
             int attribute_count = readU2();
             field_info.setAttributes_count(attribute_count);
 
             Attribute_info[] attribute_infos = new Attribute_info[attribute_count];
             for (int j = 0; j < attribute_count; j++) {
-                Attribute_info attribute_info = new Attribute_info();
                 CONSTANT_Utf8_info attributeName = (CONSTANT_Utf8_info) classFile.getConstantPool()[readU2()];
+                Attribute_info attribute_info = Attribute_info.getInstance(attributeName.parseString());
                 attribute_info.setAttribute_name(attributeName.parseString());
                 int u4 = readU4Int();
                 attribute_info.setAttribute_length(u4);
                 attribute_info.setInfo(readBytes(u4));
-                attribute_infos[j] = attribute_info;
+                attribute_infos[j] = attribute_info.parseAttribute(classFile);
             }
             field_info.setAttributes(attribute_infos);
             field_infos[i] = field_info;
@@ -130,8 +145,10 @@ public class ClassReader {
     private void parseInterfaces(ClassFile classFile) {
         CONSTANT_Utf8_info[] infos = new CONSTANT_Utf8_info[classFile.getInterfacesCount()];
         for (int i = 0; i < classFile.getInterfacesCount(); i++) {
-            CONSTANT_Class_info constant_class_info = (CONSTANT_Class_info) classFile.getConstantPool()[readU2()];
-            CONSTANT_Utf8_info constant_utf8_info = (CONSTANT_Utf8_info) classFile.getConstantPool()[constant_class_info.getName_index()];
+            CONSTANT_Class_info constant_class_info =
+                    (CONSTANT_Class_info) classFile.getConstantPool()[readU2()];
+            CONSTANT_Utf8_info constant_utf8_info =
+                    (CONSTANT_Utf8_info) classFile.getConstantPool()[constant_class_info.getName_index()];
             infos[i] = constant_utf8_info;
         }
         classFile.setInterfaces(infos);
@@ -142,8 +159,10 @@ public class ClassReader {
     }
 
     private void parseThisClass(ClassFile classFile) {
-        CONSTANT_Class_info constant_class_info = (CONSTANT_Class_info) classFile.getConstantPool()[readU2()];
-        CONSTANT_Utf8_info constant_utf8_info = (CONSTANT_Utf8_info) classFile.getConstantPool()[constant_class_info.getName_index()];
+        CONSTANT_Class_info constant_class_info =
+                (CONSTANT_Class_info) classFile.getConstantPool()[readU2()];
+        CONSTANT_Utf8_info constant_utf8_info =
+                (CONSTANT_Utf8_info) classFile.getConstantPool()[constant_class_info.getName_index()];
         classFile.setThisClass(constant_utf8_info.parseString());
     }
 
@@ -153,8 +172,10 @@ public class ClassReader {
             classFile.setSuperClass("Object");
             return;
         }
-        CONSTANT_Class_info constant_class_info = (CONSTANT_Class_info) classFile.getConstantPool()[index];
-        CONSTANT_Utf8_info constant_utf8_info = (CONSTANT_Utf8_info) classFile.getConstantPool()[constant_class_info.getName_index()];
+        CONSTANT_Class_info constant_class_info =
+                (CONSTANT_Class_info) classFile.getConstantPool()[index];
+        CONSTANT_Utf8_info constant_utf8_info =
+                (CONSTANT_Utf8_info) classFile.getConstantPool()[constant_class_info.getName_index()];
         classFile.setSuperClass(constant_utf8_info.parseString());
     }
 
@@ -290,15 +311,15 @@ public class ClassReader {
         return bytesToInt(bytes);
     }
 
-    public String bytesToString(byte[] bytes) {
+    public static String bytesToString(byte[] bytes) {
         return toHexString(bytes);
     }
 
-    public int bytesToInt(byte[] bytes) {
+    public static int bytesToInt(byte[] bytes) {
         return Integer.valueOf(toHexString(bytes), 16);
     }
 
-    public String toHexString(byte[] bytes) {
+    public static String toHexString(byte[] bytes) {
         StringBuilder builder = new StringBuilder();
         for (byte b : bytes) {
             builder.append(Integer.toHexString(b & 0xFF));

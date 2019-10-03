@@ -1,5 +1,6 @@
 package clazz;
 
+import clazz.attribute.Attribute_info;
 import clazz.constant.CONSTANT;
 import clazz.constant.CONSTANT_Utf8_info;
 import clazz.field.Field_info;
@@ -41,5 +42,5 @@ public class ClassFile {
 
     private int attributesCount;
 
-    private Object[] attributes;
+    private Attribute_info[] attributes;
 }
