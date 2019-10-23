@@ -25,16 +25,39 @@ public abstract class Attribute_info {
     private static HashMap<String, Attribute_info> map = new HashMap<>();
 
     static {
-        SourceFile sourceFile = new SourceFile();
-        map.put(sourceFile.getName(), sourceFile);
         Code code = new Code();
-        map.put(code.getName(), code);
-        MethodParameters methodParameters = new MethodParameters();
-        map.put(methodParameters.getName(), methodParameters);
+        ConstantValue constantValue = new ConstantValue();
+        Deprecated deprecated = new Deprecated();
+        EnclosingMethod enclosingMethod = new EnclosingMethod();
+        Exceptions exceptions = new Exceptions();
+        InnerClasses innerClasses = new InnerClasses();
         LineNumberTable lineNumberTable = new LineNumberTable();
-        map.put(lineNumberTable.getName(), lineNumberTable);
         LocalVariableTable localVariableTable = new LocalVariableTable();
+        LocalVariableTypeTable localVariableTypeTable = new LocalVariableTypeTable();
+        MethodParameters methodParameters = new MethodParameters();
+        RuntimeVisibleAnnotations runtimeVisibleAnnotations = new RuntimeVisibleAnnotations();
+        Signature signature = new Signature();
+        SourceFile sourceFile = new SourceFile();
+        SourceFileDebugExtension sourceFileDebugExtension = new SourceFileDebugExtension();
+        StackMapTable stackMapTable = new StackMapTable();
+        Synthetic synthetic = new Synthetic();
+
+        map.put(code.getName(), code);
+        map.put(constantValue.getName(), constantValue);
+        map.put(deprecated.getName(), deprecated);
+        map.put(enclosingMethod.getName(), enclosingMethod);
+        map.put(exceptions.getName(), exceptions);
+        map.put(innerClasses.getName(), innerClasses);
+        map.put(lineNumberTable.getName(), lineNumberTable);
         map.put(localVariableTable.getName(), localVariableTable);
+        map.put(localVariableTypeTable.getName(), localVariableTypeTable);
+        map.put(methodParameters.getName(), methodParameters);
+        map.put(runtimeVisibleAnnotations.getName(), runtimeVisibleAnnotations);
+        map.put(signature.getName(), signature);
+        map.put(sourceFile.getName(), sourceFile);
+        map.put(sourceFileDebugExtension.getName(), sourceFileDebugExtension);
+        map.put(stackMapTable.getName(), stackMapTable);
+        map.put(synthetic.getName(), synthetic);
     }
 
     public static Attribute_info getInstance(String attribute_name) {
